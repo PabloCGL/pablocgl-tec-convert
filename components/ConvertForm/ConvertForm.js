@@ -14,7 +14,9 @@ import { useConvertInputs } from './useConvertInputs'
 
 import question from './assets/question.svg'
 
-const options = ['ANT', 'ANJ']
+import { collateral, bonded } from '../../config'
+
+const options = [collateral.symbol, bonded.symbol]
 
 const CONVERTER_STATUSES = {
   FORM: Symbol('STATE_FORM'),
@@ -25,7 +27,7 @@ function ConvertForm() {
   const [formStatus, setFormStatus] = useState(CONVERTER_STATUSES.FORM)
   const [selectedOption, setSelectedOption] = useState(1)
   const [inverted, setInverted] = useState(true)
-  const toAnj = useMemo(() => !inverted, [inverted])
+  const toBonded = useMemo(() => !inverted, [inverted])
   const [legalChecked, setLegalChecked] = useState(false)
   const {
     amountSource,
@@ -35,7 +37,7 @@ function ConvertForm() {
     inputValueRecipient,
     inputValueSource,
     resetInputs,
-  } = useConvertInputs(options[selectedOption], toAnj)
+  } = useConvertInputs(options[selectedOption], toBonded)
   const tokenBalance = useTokenBalance(options[selectedOption])
 
   const { account } = useWalletAugmented()
@@ -58,9 +60,9 @@ function ConvertForm() {
   const handleConvertMax = useCallback(() => {
     handleManualInputChange(
       formatUnits(tokenBalance, { truncateToDecimalPlace: 3 }),
-      toAnj
+      toBonded
     )
-  }, [handleManualInputChange, toAnj, tokenBalance])
+  }, [handleManualInputChange, toBonded, tokenBalance])
 
   const handleConvert = useCallback(() => {
     setFormStatus(CONVERTER_STATUSES.STEPPER)
@@ -83,7 +85,7 @@ function ConvertForm() {
     if (formStatus !== CONVERTER_STATUSES.FORM) {
       return 'normal'
     }
-    return inverted ? 'anj' : 'ant'
+    return inverted ? 'bonded' : 'collateral'
   }, [formStatus, inverted])
 
   return (
@@ -107,7 +109,7 @@ function ConvertForm() {
           >
             <AmountInput
               error={inputError}
-              symbol={inverted ? 'ANJ' : 'ANT'}
+              symbol={inverted ? bonded.symbol : collateral.symbol}
               color={false}
               value={inputValueSource}
               disabled={inputDisabled}
@@ -138,21 +140,19 @@ function ConvertForm() {
             `}
           >
             <AmountInput
-              symbol={inverted ? 'ANT' : 'ANJ'}
+              symbol={inverted ? collateral.symbol : bonded.symbol}
               color={true}
               value={inputValueRecipient}
               onChange={() => null}
             />
             <LabelWithOverlay
               label="The conversion amount is an estimate"
-              description="This tool uses a bonding curve to convert ANT into ANJ and
+              description={`This tool uses a bonding curve to convert ${collateral.symbol} into ${bonded.symbol} and
                       back at a pre-defined rate. The price is calculated by an
                       automated market maker smart contract that defines a
                       relationship between token price and token supply. You can
-                      also convert ANT into other tokens such as ETH or DAI on
-                      various exchanges like
-                      Uniswap.
-"
+                      also convert ${collateral.symbol} into other tokens on Honeyswap.
+`}
               overlayPlacement="top"
             />
             <div
@@ -211,7 +211,7 @@ function ConvertForm() {
         reveal={
           formStatus === CONVERTER_STATUSES.STEPPER && (
             <ManageConversion
-              toAnj={toAnj}
+              toBonded={toBonded}
               fromAmount={amountSource}
               handleReturnHome={handleReturnHome}
             />

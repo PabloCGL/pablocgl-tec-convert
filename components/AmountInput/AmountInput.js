@@ -7,11 +7,13 @@ import anjWhite from './anj-white.svg'
 import antColor from './ant-color.svg'
 import antWhite from './ant-white.svg'
 
+import { collateral, bonded } from '../../config'
+
 function getImage(color, symbol) {
-  if (symbol === 'ANT') {
+  if (symbol === collateral.symbol) {
     return color ? antColor : antWhite
   }
-  if (symbol === 'ANJ') {
+  if (symbol === bonded.symbol) {
     return color ? anjColor : anjWhite
   }
 }
@@ -98,7 +100,7 @@ AmountInput.propTypes = {
   color: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-  symbol: PropTypes.oneOf(['ANT', 'ANJ']).isRequired,
+  symbol: PropTypes.oneOf([collateral.symbol, bonded.symbol]).isRequired,
   value: PropTypes.string,
 }
 

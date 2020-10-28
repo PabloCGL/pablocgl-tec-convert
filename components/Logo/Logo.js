@@ -2,16 +2,16 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTransition, animated } from 'react-spring'
 
-import logo from './logo.svg'
-import logoAnt from './logo-ant.svg'
-import logoAnj from './logo-anj.svg'
+import logo from '../../assets/logo.svg'
+import logoCollateral from '../../assets/logo-collateral.svg'
+import logoBonded from '../../assets/logo-bonded.svg'
 
 function getImage(mode) {
-  if (mode === 'ant') {
-    return logoAnt
+  if (mode === 'collateral') {
+    return logoCollateral
   }
-  if (mode === 'anj') {
-    return logoAnj
+  if (mode === 'bonded') {
+    return logoBonded
   }
   return logo
 }
@@ -75,7 +75,7 @@ function Logo({
 
 Logo.propTypes = {
   label: PropTypes.string,
-  mode: PropTypes.oneOf(['ant', 'anj', 'normal']),
+  mode: PropTypes.oneOf(['collateral', 'bonded', 'normal']),
   onClick: PropTypes.func,
 }
 

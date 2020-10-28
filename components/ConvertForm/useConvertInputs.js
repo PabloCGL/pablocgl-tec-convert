@@ -3,6 +3,8 @@ import { bigNum } from 'lib/utils'
 import { useBondingCurvePrice, useTokenDecimals } from 'lib/web3-contracts'
 import { formatUnits, parseUnits } from 'lib/web3-utils'
 
+import { bonded } from '../../config'
+
 // Filters and parse the input value of a token amount.
 // Returns a BN.js instance and the filtered value.
 function parseInputValue(inputValue, decimals) {
@@ -22,7 +24,7 @@ function parseInputValue(inputValue, decimals) {
   return { amount, inputValue }
 }
 
-export function useConvertInputs(otherSymbol, toAnj = true) {
+export function useConvertInputs(otherSymbol, toBonded = true) {
   const [inputValueRecipient, setInputValueRecipient] = useState('')
   const [inputValueSource, setInputValueSource] = useState('0.0')
   const [amountRecipient, setAmountRecipient] = useState(bigNum(0))
@@ -31,12 +33,12 @@ export function useConvertInputs(otherSymbol, toAnj = true) {
   const {
     loading: bondingPriceLoading,
     price: bondingCurvePrice,
-  } = useBondingCurvePrice(amountSource, toAnj)
-  const anjDecimals = useTokenDecimals('ANJ')
+  } = useBondingCurvePrice(amountSource, toBonded)
+  const bondedDecimals = useTokenDecimals(bonded.symbol)
   const otherDecimals = useTokenDecimals(otherSymbol)
 
-  // convertFromAnj is used as a toggle to execute a conversion to or from ANJ.
-  const [convertFromAnj, setConvertFromAnj] = useState(false)
+  // convertFromBonded is used as a toggle to execute a conversion to or from Bonded.
+  const [convertFromBonded, setConvertFromBonded] = useState(false)
 
   const resetInputs = useCallback(() => {
     setInputValueSource('')
@@ -50,14 +52,14 @@ export function useConvertInputs(otherSymbol, toAnj = true) {
     resetInputs()
   }, [otherSymbol, resetInputs])
 
-  // Calculate the ANJ amount from the other amount
+  // Calculate the Bonded amount from the other amount
   useEffect(() => {
     if (
-      anjDecimals === -1 ||
+      bondedDecimals === -1 ||
       otherDecimals === -1 ||
-      convertFromAnj ||
+      convertFromBonded ||
       bondingPriceLoading ||
-      editing === 'anj'
+      editing === 'bonded'
     ) {
       return
     }
@@ -66,14 +68,14 @@ export function useConvertInputs(otherSymbol, toAnj = true) {
 
     setAmountRecipient(amount)
     setInputValueRecipient(
-      formatUnits(amount, { digits: anjDecimals, truncateToDecimalPlace: 8 })
+      formatUnits(amount, { digits: bondedDecimals, truncateToDecimalPlace: 8 })
     )
   }, [
     amountSource,
-    anjDecimals,
+    bondedDecimals,
     bondingCurvePrice,
     bondingPriceLoading,
-    convertFromAnj,
+    convertFromBonded,
     editing,
     otherDecimals,
   ])
@@ -92,22 +94,22 @@ export function useConvertInputs(otherSymbol, toAnj = true) {
     [amountSource, otherDecimals]
   )
 
-  const setEditModeAnj = useCallback(
+  const setEditModeBonded = useCallback(
     editMode => {
-      setEditing(editMode ? 'anj' : null)
+      setEditing(editMode ? 'bonded' : null)
       setInputValueRecipient(
         formatUnits(amountRecipient, {
-          digits: anjDecimals,
+          digits: bondedDecimals,
           commas: !editMode,
         })
       )
     },
-    [amountRecipient, anjDecimals]
+    [amountRecipient, bondedDecimals]
   )
 
   const handleOtherInputChange = useCallback(
     event => {
-      setConvertFromAnj(false)
+      setConvertFromBonded(false)
 
       if (otherDecimals === -1) {
         return
@@ -122,21 +124,21 @@ export function useConvertInputs(otherSymbol, toAnj = true) {
     [otherDecimals]
   )
 
-  const handleAnjInputChange = useCallback(
+  const handleBondedInputChange = useCallback(
     event => {
-      setConvertFromAnj(true)
+      setConvertFromBonded(true)
 
-      if (anjDecimals === -1) {
+      if (bondedDecimals === -1) {
         return
       }
 
-      const parsed = parseInputValue(event.target.value, anjDecimals)
+      const parsed = parseInputValue(event.target.value, bondedDecimals)
       if (parsed !== null) {
         setInputValueRecipient(parsed.inputValue)
         setAmountRecipient(parsed.amount)
       }
     },
-    [anjDecimals]
+    [bondedDecimals]
   )
 
   const handleManualInputChange = useCallback(
@@ -163,13 +165,13 @@ export function useConvertInputs(otherSymbol, toAnj = true) {
     [setEditModeOther, handleOtherInputChange]
   )
 
-  const bindAnjInput = useMemo(
+  const bindBondedInput = useMemo(
     () => ({
-      onChange: handleAnjInputChange,
-      onBlur: () => setEditModeAnj(false),
-      onFocus: () => setEditModeAnj(true),
+      onChange: handleBondedInputChange,
+      onBlur: () => setEditModeBonded(false),
+      onFocus: () => setEditModeBonded(true),
     }),
-    [setEditModeAnj, handleAnjInputChange]
+    [setEditModeBonded, handleBondedInputChange]
   )
 
   return {
@@ -178,7 +180,7 @@ export function useConvertInputs(otherSymbol, toAnj = true) {
     amountRecipient,
     // Event handlers to bind the inputs
     bindOtherInput,
-    bindAnjInput,
+    bindBondedInput,
     bondingPriceLoading,
     handleManualInputChange,
     // The value to be used for inputs

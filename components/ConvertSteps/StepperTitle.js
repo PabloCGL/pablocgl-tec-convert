@@ -9,22 +9,24 @@ import {
 import { formatUnits } from 'lib/web3-utils'
 import { useTokenDecimals } from 'lib/web3-contracts'
 
+import { collateral, bonded } from '../../config'
+
 const smallCaps = css`
   font-size: 32px;
 `
 
-function StepperTitle({ fromAmount, convertedTotal, status, toAnj }) {
-  const antDecimals = useTokenDecimals('ANT')
-  const anjDecimals = useTokenDecimals('ANJ')
+function StepperTitle({ fromAmount, convertedTotal, status, toBonded }) {
+  const collateralDecimals = useTokenDecimals(collateral.symbol)
+  const bondedDecimals = useTokenDecimals(bonded.symbol)
 
   const formattedFromAmount = formatUnits(fromAmount, {
-    digits: toAnj ? antDecimals : anjDecimals,
+    digits: toBonded ? collateralDecimals : bondedDecimals,
     truncateToDecimalPlace: 8,
     commas: true,
   })
 
   const formattedTotal = formatUnits(convertedTotal, {
-    digits: toAnj ? anjDecimals : antDecimals,
+    digits: toBonded ? bondedDecimals : collateralDecimals,
     truncateToDecimalPlace: 8,
     commas: true,
   })
@@ -33,8 +35,8 @@ function StepperTitle({ fromAmount, convertedTotal, status, toAnj }) {
     return (
       <>
         Convert {formattedFromAmount}{' '}
-        <span css={smallCaps}>{toAnj ? 'ANT' : 'ANJ'}</span> to{' '}
-        <span css={smallCaps}>{toAnj ? 'ANJ' : 'ANT'}</span>
+        <span css={smallCaps}>{toBonded ? collateral.symbol : bonded.symbol}</span> to{' '}
+        <span css={smallCaps}>{toBonded ? bonded.symbol : collateral.symbol}</span>
       </>
     )
   } else if (status === STEPPER_SUCCESS) {
@@ -42,8 +44,8 @@ function StepperTitle({ fromAmount, convertedTotal, status, toAnj }) {
       <>
         You successfully converted <br />
         {formattedFromAmount}{' '}
-        <span css={smallCaps}>{toAnj ? 'ANT' : 'ANJ'}</span> to {formattedTotal}{' '}
-        <span css={smallCaps}>{toAnj ? 'ANJ' : 'ANT'}</span>
+        <span css={smallCaps}>{toBonded ? collateral.symbol : bonded.symbol}</span> to {formattedTotal}{' '}
+        <span css={smallCaps}>{toBonded ? bonded.symbol : collateral.symbol}</span>
       </>
     )
   }
@@ -52,7 +54,7 @@ function StepperTitle({ fromAmount, convertedTotal, status, toAnj }) {
 StepperTitle.propTypes = {
   fromAmount: PropTypes.object,
   convertedTotal: PropTypes.object,
-  toAnj: PropTypes.bool,
+  toBonded: PropTypes.bool,
   status: PropTypes.oneOf([
     STEPPER_IN_PROGRESS,
     STEPPER_SUCCESS,
