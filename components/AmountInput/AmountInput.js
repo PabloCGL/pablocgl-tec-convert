@@ -2,19 +2,18 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useViewport } from 'use-viewport'
 
-import anjColor from './anj-color.svg'
-import anjWhite from './anj-white.svg'
-import antColor from './ant-color.svg'
-import antWhite from './ant-white.svg'
+import bondedColor from './xdai-color.svg'
+import bondedWhite from './xdai-white.svg'
+import collateralColor from './tec.svg'
 
 import { collateral, bonded } from '../../config'
 
 function getImage(color, symbol) {
   if (symbol === collateral.symbol) {
-    return color ? antColor : antWhite
+    return collateralColor
   }
   if (symbol === bonded.symbol) {
-    return color ? anjColor : anjWhite
+    return color ? bondedColor : bondedWhite
   }
 }
 
@@ -60,6 +59,14 @@ function AmountInput({
           alt=""
           css={`
             margin-right: 12px;
+            ${symbol === collateral.symbol && `
+              background-color: #fff;
+              border-radius: 50%;
+              border: 0.3px solid #0B0A15;
+              padding: 5px;
+              width: 25px;
+              height: 25px;
+            `}
           `}
         />
         <span

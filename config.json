@@ -1,10 +1,10 @@
 {
   "collateral": {
-    "symbol": "ANT",
+    "symbol": "TEC",
     "decimals": 18
   },
   "bonded": {
-    "symbol": "ANJ",
+    "symbol": "xDAI",
     "decimals": 18
   },
   "knownContracts": [
