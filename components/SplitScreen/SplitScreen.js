@@ -7,8 +7,8 @@ import InvertButton from './InvertButton'
 import illustrationCollateral from '../../assets/banner-illustration-collateral.svg'
 import illustrationBonded from '../../assets/banner-illustration-bonded.svg'
 
-const BANNER_COLLATERAL = [illustrationCollateral, '304deg, #01E8F7 18%, #00C2FF 80%']
-const BANNER_BONDED = [illustrationBonded, '208deg, #FFB36D 6%,  #FF8888 93%']
+const BANNER_COLLATERAL = [illustrationCollateral, '324.02deg, #E3FB6B 11.35%, #34C1FE 91.48%']
+const BANNER_BONDED = [illustrationBonded, '324.02deg, #FCAE41 11.35%, #FCD040 91.48%']
 
 const REVEAL_SCALE_FROM = 0.9
 const REVEAL_OVERLAY_OPACITY = 0.1
