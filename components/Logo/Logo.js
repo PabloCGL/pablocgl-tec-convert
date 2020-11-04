@@ -3,21 +3,19 @@ import PropTypes from 'prop-types'
 import { useTransition, animated } from 'react-spring'
 
 import logo from '../../assets/logo.svg'
-import logoCollateral from '../../assets/logo-collateral.svg'
-import logoBonded from '../../assets/logo-bonded.svg'
 
-function getImage(mode) {
-  if (mode === 'collateral') {
-    return logoCollateral
-  }
-  if (mode === 'bonded') {
-    return logoBonded
-  }
-  return logo
-}
+// function getImage(mode) {
+//   if (mode === 'collateral') {
+//     return logoCollateral
+//   }
+//   if (mode === 'bonded') {
+//     return logoBonded
+//   }
+//   return logo
+// }
 
 function Logo({
-  label = 'Aragon Bonding Curve Converter',
+  label = 'TEC Bonding Curve Converter',
   onClick = () => {},
   mode = 'normal',
 }) {
@@ -60,12 +58,13 @@ function Logo({
         <animated.img
           key={key}
           alt={label}
-          src={getImage(mode)}
+          src={logo}
           style={{ opacity }}
           css={`
             position: absolute;
             top: 0;
             left: 0;
+            height: 40px;
           `}
         />
       ))}

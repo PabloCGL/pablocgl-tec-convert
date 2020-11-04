@@ -7,8 +7,8 @@ import InvertButton from './InvertButton'
 import illustrationCollateral from '../../assets/banner-illustration-collateral.svg'
 import illustrationBonded from '../../assets/banner-illustration-bonded.svg'
 
-const BANNER_COLLATERAL = [illustrationCollateral, '304deg, #01E8F7 18%, #00C2FF 80%']
-const BANNER_BONDED = [illustrationBonded, '208deg, #FFB36D 6%,  #FF8888 93%']
+const BANNER_COLLATERAL = [illustrationCollateral, '324.02deg, #E3FB6B 11.35%, #34C1FE 91.48%', '100% 400px']
+const BANNER_BONDED = [illustrationBonded, '324.02deg, #FCAE41 11.35%, #FCD040 91.48%', 'contain']
 
 const REVEAL_SCALE_FROM = 0.9
 const REVEAL_OVERLAY_OPACITY = 0.1
@@ -149,7 +149,7 @@ function SplitScreen({ inverted, onInvert, reveal, primary, secondary }) {
         >
           {primaryTransitions.map(
             ({ item: { inverted, opened }, key, props }) => {
-              const [image, gradient] = inverted ? BANNER_BONDED : BANNER_COLLATERAL
+              const [image, gradient, size] = inverted ? BANNER_BONDED : BANNER_COLLATERAL
               return opened ? null : (
                 <animated.div
                   key={key}
@@ -161,7 +161,7 @@ function SplitScreen({ inverted, onInvert, reveal, primary, secondary }) {
                     justify-content: center;
                     width: 100%;
                     height: 100%;
-                    background: 50% 100% / contain no-repeat url(${image}),
+                    background: 50% 100% / ${size} no-repeat url(${image}),
                       linear-gradient(${gradient}) !important;
                   `}
                 >

@@ -281,7 +281,7 @@ function Docs() {
 }
 
 const Button = styled.button`
-  background: linear-gradient(189.76deg, #ffb36d 6.08%, #ff8888 93.18%);
+  background: linear-gradient(314.72deg, #DEFB48 -63.88%, #03B3FF 129.87%);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
   border: solid 0px transparent;
   border-radius: 6px;
