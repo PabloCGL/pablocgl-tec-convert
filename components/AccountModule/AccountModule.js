@@ -7,10 +7,8 @@ import { trackEvent } from 'lib/analytics'
 import { useWalletAugmented } from 'lib/wallet'
 import { shortenAddress } from 'lib/web3-utils'
 
-import fortmatic from './provider-icons/fortmatic.svg'
 import frame from './provider-icons/frame.svg'
 import metamask from './provider-icons/metamask.svg'
-import portis from './provider-icons/portis.svg'
 import lightning from './lightning.svg'
 
 function AccountModule() {
@@ -110,16 +108,6 @@ function DisconnectedMode() {
                   name="Frame"
                   onActivate={() => activateAndTrack('frame')}
                   image={frame}
-                />
-                <ProviderButton
-                  name="Fortmatic"
-                  onActivate={() => activateAndTrack('fortmatic')}
-                  image={fortmatic}
-                />
-                <ProviderButton
-                  name="Portis"
-                  onActivate={() => activateAndTrack('portis')}
-                  image={portis}
                 />
               </div>
             </div>
@@ -230,7 +218,7 @@ const StyledPopover = styled(Popover)`
   border: 0 solid transparent;
   width: 410px;
   max-width: 90vw;
-  height: 313px;
+  height: 165px;
   left: 982px;
   top: 103px;
 
