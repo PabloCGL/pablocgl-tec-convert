@@ -14,7 +14,7 @@ import { useConvertInputs } from './useConvertInputs'
 
 import question from './assets/question.svg'
 
-import { collateral, bonded } from '../../config'
+import { collateral, bonded, docs, legalTerms } from '../../config'
 
 const options = [collateral.symbol, bonded.symbol]
 
@@ -76,7 +76,7 @@ function ConvertForm() {
   const submitButtonDisabled = Boolean(
     !account ||
       bondingPriceLoading ||
-      !legalChecked ||
+      legalTerms && !legalChecked ||
       !parseFloat(inputValueSource) > 0 ||
       inputError
   )
@@ -150,8 +150,9 @@ function ConvertForm() {
               description={`This tool uses a bonding curve to convert ${collateral.symbol} into ${bonded.symbol} and
                       back at a pre-defined rate. The price is calculated by an
                       automated market maker smart contract that defines a
-                      relationship between token price and token supply. You can
-                      also convert ${collateral.symbol} into other tokens on Honeyswap.
+                      relationship between token price and token supply. ${collateral.symbol === 'xDAI' ? `You can
+                      also convert xDAI into DAI using the xDAI bridge` : `You can also convert ${collateral.symbol}
+                      into other tokens on Honeyswap`} .
 `}
               overlayPlacement="top"
             />
@@ -170,40 +171,42 @@ function ConvertForm() {
               <Button disabled={submitButtonDisabled} onClick={handleConvert}>
                 Convert
               </Button>
-              <div
-                css={`
-                  display: flex;
-                  align-items: center;
-                  margin-top: 24px;
-                `}
-              >
-                <label
+              {
+                legalTerms && <div
                   css={`
-                    font-size: 16px;
-                    line-height: 1.3;
-                    margin-bottom: 0;
-                    color: #9096b6;
+                    display: flex;
+                    align-items: center;
+                    margin-top: 24px;
                   `}
                 >
-                  <input
+                  <label
                     css={`
-                      cursor: pointer;
-                      margin-right: 8px;
+                      font-size: 16px;
+                      line-height: 1.3;
+                      margin-bottom: 0;
+                      color: #9096b6;
                     `}
-                    type="checkbox"
-                    onChange={handleLegalToggle}
-                    checked={legalChecked}
-                  />
-                  By clicking on “Convert” you are accepting our{' '}
-                  <Anchor
-                    href="https://anj.aragon.org/legal/terms-general.pdf"
-                    target="_blank"
                   >
-                    legal terms
-                  </Anchor>
-                  .
-                </label>
-              </div>
+                    <input
+                      css={`
+                        cursor: pointer;
+                        margin-right: 8px;
+                      `}
+                      type="checkbox"
+                      onChange={handleLegalToggle}
+                      checked={legalChecked}
+                    />
+                    By clicking on “Convert” you are accepting our{' '}
+                    <Anchor
+                      href={legalTerms}
+                      target="_blank"
+                    >
+                      legal terms
+                    </Anchor>
+                    .
+                  </label>
+                </div>
+              }
               <Docs />
             </div>
           </div>
@@ -242,6 +245,11 @@ function LabelWithOverlay({ label, description, overlayPlacement }) {
 }
 
 function Docs() {
+  const docLinks = Object.entries(docs).map(([text, link]) => (
+    <li>
+      <Anchor href={link}>{text}</Anchor>
+    </li>
+  ))
   return (
     <ul
       css={`
@@ -265,17 +273,7 @@ function Docs() {
         }
       `}
     >
-      <li>
-        <Anchor href="https://anj.aragon.org/">About</Anchor>
-      </li>
-      <li>
-        <Anchor href="https://help.aragon.org/article/41-aragon-court">
-          Docs
-        </Anchor>
-      </li>
-      <li>
-        <Anchor href="https://court.aragon.org/dashboard">Court</Anchor>
-      </li>
+      {docLinks}
     </ul>
   )
 }
