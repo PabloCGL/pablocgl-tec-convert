@@ -91,8 +91,8 @@ export default class Document extends NextDocument {
           <style>{`
             html, body {
             min-height: 100vh;
-            background: no-repeat center/170px url(/splash.svg),
-                        linear-gradient(30deg, #FFC58F -24%, #FF7C7C 62%) !important;
+            background: no-repeat center/300px url(/splash.svg),
+                        linear-gradient(30deg, #E3FB6B -24%, #34C1FE 62%) !important;
             }
           `}</style>
         </Head>
