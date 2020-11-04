@@ -17,12 +17,12 @@ if (env('SENTRY_DSN')) {
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
-    font-family: 'Manrope';
-    src: url('/fonts/ManropeGX.ttf');
+    font-family: 'BaiJamjuree';
+    src: url('/fonts/BaiJamjuree-Regular.ttf');
   }
   body,
   button {
-    font-family: 'Manrope', sans-serif;
+    font-family: 'BaiJamjuree', sans-serif;
   }
   body,
   html {

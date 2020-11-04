@@ -14,7 +14,7 @@ function Balance({ tokenAmountToConvert, tokenBalance }) {
     <div
       css={`
         text-align: center;
-        font-family: 'Manrope', 'Calibre', sans-serif;
+        font-family: 'BaiJamjuree', 'Calibre', sans-serif;
         color: ${balanceError ? '#FF7163' : 'white'};
         background: ${balanceError
           ? 'rgba(255, 255, 255, 0.7)'
