@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useViewport } from 'use-viewport'
 
-import bondedColor from './xdai-color.svg'
-import bondedWhite from './xdai-white.svg'
-import collateralColor from './tec.svg'
+import bondedColor from './tec.svg'
+import bondedWhite from './tec.svg'
+import collateralColor from './xdai-color.svg'
+import collateralWhite from './xdai-white.svg'
 
 import { collateral, bonded } from '../../config'
 
 function getImage(color, symbol) {
   if (symbol === collateral.symbol) {
-    return collateralColor
+    return color ? collateralColor : collateralWhite
   }
   if (symbol === bonded.symbol) {
     return color ? bondedColor : bondedWhite
