@@ -30,5 +30,11 @@
         "BONDED_TOKEN": "0x1FAB7d0D028ded72195322998003F6e82cF4cFdB"
       }
     ]
-  ]
+  ],
+  "docs": {
+    "About": "https://medium.com/@tecommons",
+    "Forum": "https://forum.tecommons.org",
+    "Gov": "https://gov.tecommons.org"
+  },
+  "legalTerms": false
 }
