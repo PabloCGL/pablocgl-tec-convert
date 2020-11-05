@@ -59,14 +59,6 @@ function AmountInput({
           alt=""
           css={`
             margin-right: 12px;
-            ${symbol === collateral.symbol && `
-              background-color: #fff;
-              border-radius: 50%;
-              border: 0.3px solid #0B0A15;
-              padding: 5px;
-              width: 25px;
-              height: 25px;
-            `}
           `}
         />
         <span
