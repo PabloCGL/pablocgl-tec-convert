@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Anchor from '../Anchor/Anchor'
 import { shortenAddress } from 'lib/web3-utils'
-import { getEtherscanHref } from 'lib/utils'
+import { getBlockExplorerHref } from 'lib/utils'
 
 function TransactionBadge({ transactionHash, className }) {
   return (
@@ -18,7 +18,7 @@ function TransactionBadge({ transactionHash, className }) {
       `}
     >
       <Anchor
-        href={getEtherscanHref(transactionHash)}
+        href={getBlockExplorerHref(transactionHash)}
         css={`
           color: #20232c;
 
