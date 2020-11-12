@@ -38,7 +38,7 @@ function ConvertForm() {
     inputValueSource,
     resetInputs,
   } = useConvertInputs(options[selectedOption], toBonded)
-  const tokenBalance = useTokenBalance(options[selectedOption])
+  const [tokenBalance, spendableBalance] = useTokenBalance(options[selectedOption])
 
   const { account } = useWalletAugmented()
 
@@ -117,6 +117,7 @@ function ConvertForm() {
             />
             <Balance
               tokenBalance={tokenBalance}
+              spendableBalance={spendableBalance}
               tokenAmountToConvert={amountSource}
             />
             {account && (
@@ -246,7 +247,7 @@ function LabelWithOverlay({ label, description, overlayPlacement }) {
 
 function Docs() {
   const docLinks = Object.entries(docs).map(([text, link]) => (
-    <li>
+    <li key={link}>
       <Anchor href={link}>{text}</Anchor>
     </li>
   ))

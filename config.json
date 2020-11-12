@@ -1,10 +1,10 @@
 {
   "collateral": {
-    "symbol": "xDAI",
+    "symbol": "wxDAI",
     "decimals": 18
   },
   "bonded": {
-    "symbol": "TESTTEC",
+    "symbol": "TestTEC",
     "decimals": 18
   },
   "knownContracts": [
@@ -34,11 +34,12 @@
       "100",
       {
         "BANCOR_FORMULA": "0xad4f46fb39B595579BDdDaa916aF88fc9210EE31",
-        "BONDING_CURVE_RESERVE": "0xf1792073e96cac31d3b0f38eb020482c98fbc9c2",
-        "MARKETPLACE": "0x0d8ddad7ae9f7130cbe27661aecdf9462cc9eb65",
-        "MARKET_MAKER": "0x0ad1e0b9de16a8da54768e2cff33b9af4dc5c0ab",
-        "COLLATERAL_TOKEN": "0xfb8f60246d56905866e12443ec0836ebfb3e1f2e",
-        "BONDED_TOKEN": "0xE2763De029F1fCe44F9bEb0018A5263df7D940D1"
+        "BONDING_CURVE_RESERVE": "0x7a36559fa7c063438b45fcf850ad11df9e346e79",
+        "MARKETPLACE": "0x6a580b3de0365d66a720fc0acc6f0dab27aba6fd",
+        "MARKET_MAKER": "0x841f46de4e8352acfec5dc946389103ddd715299",
+        "COLLATERAL_TOKEN": "0xe91d153e0b41518a2ce8dd3d7944fa863463a97d",
+        "BONDED_TOKEN": "0x7f491c5Dd13e10794ea8589103d4870DE46DEe7e",
+        "TOKEN_MANAGER": "0xb259f094c2f0d55f0b47e2269901bf3cbbb5c457"
       }
     ]
   ],
