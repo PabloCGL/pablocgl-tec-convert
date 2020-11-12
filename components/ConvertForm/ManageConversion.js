@@ -1,19 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import {
-  useOpenOrder,
-  useClaimOrder,
+  useMakeOrder,
   useApprove,
   useAllowance,
-  useClaimOrderReceiptAmount,
+  useOrderReceiptAmount,
 } from 'lib/web3-contracts'
 import { bigNum } from 'lib/utils'
 import ConvertSteps from 'components/ConvertSteps/ConvertSteps'
 import processing from './assets/loader.gif'
 
 function ManageConversion({ toBonded, fromAmount, handleReturnHome }) {
-  const openOrder = useOpenOrder()
-  const claimOrder = useClaimOrder()
-  const claimOrderReceiptAmount = useClaimOrderReceiptAmount()
+  const makeOrder = useMakeOrder()
+  const orderReceiptAmount = useOrderReceiptAmount()
   const changeAllowance = useApprove()
   const getAllowance = useAllowance()
   const [conversionSteps, setConversionSteps] = useState([])
@@ -22,26 +20,24 @@ function ManageConversion({ toBonded, fromAmount, handleReturnHome }) {
   const updateConvertedValue = useCallback(
     async hash => {
       try {
-        const amount = await claimOrderReceiptAmount(hash)
+        const amount = await orderReceiptAmount(hash)
 
         setConvertedTotal(amount)
       } catch (err) {
         throw new Error(err)
       }
     },
-    [claimOrderReceiptAmount]
+    [orderReceiptAmount]
   )
 
   useEffect(() => {
     let cancelled = false
 
-    // Interacting with the bonding curve involves 2, 3 or 4 transactions (depending on the direction and state of allowance):
+    // Interacting with the bonding curve involves 1, 2 or 3 transactions (depending on the direction and state of allowance):
     // 1. Reset approval (If we're converting ANT -> ANJ, an allowance was previously set but abandoned)
     // 2. Raise approval (If we're converting ANT -> ANJ, the current allowance is not high enough)
-    // 3. Open a buy order
-    // 4. Claim the order
+    // 3. Make an order
     const createConvertSteps = async () => {
-      let openOrderHash
       let steps = []
 
       // First we check for allowance if the direction is ANT -> ANJ
@@ -72,24 +68,11 @@ function ManageConversion({ toBonded, fromAmount, handleReturnHome }) {
         }
       }
 
-      // Next add the open order
+      // Next add the order
       steps.push([
-        `Create ${toBonded ? 'buy' : 'sell'} order`,
+        `Make ${toBonded ? 'buy' : 'sell'} order`,
         {
-          onTxCreated: () => openOrder(fromAmount, toBonded),
-
-          // We need to store a reference to the hash so we can use it in the following step
-          onHashCreated: hash => {
-            openOrderHash = hash
-          },
-        },
-      ])
-
-      // And finally the claim order
-      steps.push([
-        'Claim order',
-        {
-          onTxCreated: () => claimOrder(openOrderHash, toBonded),
+          onTxCreated: () => makeOrder(fromAmount, toBonded),
           onTxMined: hash => updateConvertedValue(hash),
         },
       ])
@@ -110,10 +93,9 @@ function ManageConversion({ toBonded, fromAmount, handleReturnHome }) {
     }
   }, [
     changeAllowance,
-    claimOrder,
     fromAmount,
     getAllowance,
-    openOrder,
+    makeOrder,
     toBonded,
     updateConvertedValue,
   ])
