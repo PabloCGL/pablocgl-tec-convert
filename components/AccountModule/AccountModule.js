@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
 import styled from 'styled-components'
 import EthIdenticon from 'components/EthIdenticon/EthIdenticon'
-import { trackEvent } from 'lib/analytics'
 import { useWalletAugmented } from 'lib/wallet'
 import { shortenAddress } from 'lib/web3-utils'
 
@@ -22,20 +21,6 @@ AccountModule.propTypes = {
 
 function DisconnectedMode() {
   const { activate } = useWalletAugmented()
-
-  const activateAndTrack = useCallback(
-    async providerId => {
-      const ok = await activate(providerId)
-      if (ok) {
-        trackEvent('web3_connect', {
-          segmentation: {
-            provider: providerId,
-          },
-        })
-      }
-    },
-    [activate]
-  )
 
   const containerRef = useRef()
 
@@ -101,12 +86,12 @@ function DisconnectedMode() {
               >
                 <ProviderButton
                   name="Metamask"
-                  onActivate={() => activateAndTrack('injected')}
+                  onActivate={() => activate('injected')}
                   image={metamask}
                 />
                 <ProviderButton
                   name="Frame"
-                  onActivate={() => activateAndTrack('frame')}
+                  onActivate={() => activate('frame')}
                   image={frame}
                 />
               </div>
