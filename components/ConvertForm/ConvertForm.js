@@ -14,7 +14,7 @@ import { useConvertInputs } from './useConvertInputs'
 
 import question from './assets/question.svg'
 
-import { collateral, bonded, docs, legalTerms } from '../../config'
+import { collateral, bonded, docs, checkbox } from '../../config'
 
 const options = [collateral.symbol, bonded.symbol]
 
@@ -28,7 +28,7 @@ function ConvertForm() {
   const [selectedOption, setSelectedOption] = useState(1)
   const [inverted, setInverted] = useState(true)
   const toBonded = useMemo(() => !inverted, [inverted])
-  const [legalChecked, setLegalChecked] = useState(false)
+  const [messageChecked, setMeessageChecked] = useState(false)
   const {
     amountSource,
     bindOtherInput,
@@ -48,8 +48,8 @@ function ConvertForm() {
     tokenBalance,
   ])
 
-  const handleLegalToggle = useCallback(() => {
-    setLegalChecked(legalChecked => !legalChecked)
+  const handleCheckboxToggle = useCallback(() => {
+    setMeessageChecked(messageChecked => !messageChecked)
   }, [])
 
   const handleInvert = useCallback(() => {
@@ -76,7 +76,7 @@ function ConvertForm() {
   const submitButtonDisabled = Boolean(
     !account ||
       bondingPriceLoading ||
-      legalTerms && !legalChecked ||
+      checkbox && !messageChecked ||
       !parseFloat(inputValueSource) > 0 ||
       inputError
   )
@@ -173,7 +173,7 @@ function ConvertForm() {
                 Convert
               </Button>
               {
-                legalTerms && <div
+                checkbox && <div
                   css={`
                     display: flex;
                     align-items: center;
@@ -194,15 +194,15 @@ function ConvertForm() {
                         margin-right: 8px;
                       `}
                       type="checkbox"
-                      onChange={handleLegalToggle}
-                      checked={legalChecked}
+                      onChange={handleCheckboxToggle}
+                      checked={messageChecked}
                     />
-                    By clicking on “Convert” you are accepting our{' '}
+                    {checkbox.text + ' '}
                     <Anchor
-                      href={legalTerms}
+                      href={checkbox.href}
                       target="_blank"
                     >
-                      legal terms
+                      {checkbox.hrefText}
                     </Anchor>
                     .
                   </label>

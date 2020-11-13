@@ -48,5 +48,7 @@
     "Forum": "https://forum.tecommons.org",
     "Gov": "https://gov.tecommons.org"
   },
-  "legalTerms": false
+  "checkbox": {
+    "text": "This is a DEMO. I understand TestTEC tokens are going to be worthless when the official TECommons DAO launches."
+  }
 }
