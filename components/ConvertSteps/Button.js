@@ -4,7 +4,7 @@ import { css } from 'styled-components'
 
 const MODE_STYLE = {
   primary: css`
-    background: linear-gradient(189.76deg, #ffb36d 6.08%, #ff8888 93.18%);
+    background: linear-gradient(314.72deg, #DEFB48 -63.88%, #03B3FF 129.87%);
     border: solid 0px transparent;
     color: white;
   `,

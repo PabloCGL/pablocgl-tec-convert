@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70"><g opacity="0.8"><circle cx="35" cy="35" r="32" fill="#a0a8c2"/></g></svg>
+<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.8">
+<path d="M35 68.5C53.5015 68.5 68.5 53.5015 68.5 35C68.5 16.4985 53.5015 1.5 35 1.5C16.4985 1.5 1.5 16.4985 1.5 35C1.5 53.5015 16.4985 68.5 35 68.5Z" fill="#85972B"/>
+</g>
+</svg>

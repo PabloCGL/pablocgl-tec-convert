@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useViewport } from 'use-viewport'
 
-import bondedColor from './tec.svg'
-import bondedWhite from './tec.svg'
+import bondedColor from '../../assets/token.svg'
 import collateralColor from './xdai-color.svg'
 import collateralWhite from './xdai-white.svg'
 
@@ -13,9 +12,7 @@ function getImage(color, symbol) {
   if (symbol === collateral.symbol) {
     return color ? collateralColor : collateralWhite
   }
-  if (symbol === bonded.symbol) {
-    return color ? bondedColor : bondedWhite
-  }
+  if (symbol === bonded.symbol) return bondedColor
 }
 
 function AmountInput({
@@ -60,6 +57,7 @@ function AmountInput({
           alt=""
           css={`
             margin-right: 12px;
+            height: 25px;
           `}
         />
         <span

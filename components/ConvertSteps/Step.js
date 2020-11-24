@@ -47,11 +47,11 @@ const pulseAnimation = css`
 function getBorderColor(status) {
   switch (status) {
     case STEP_WAITING:
-      return '#FFAA75'
+      return '#DEFB48'
     case STEP_WORKING:
-      return '#FFAA75'
+      return '#DEFB48'
     case STEP_SUCCESS:
-      return '#2CC68F'
+      return '#38CCB6'
     case STEP_ERROR:
       return '#FF7163'
 
@@ -154,7 +154,7 @@ function Step({ title, status, active, number, className, transactionHash }) {
           text-align: center;
           margin-bottom: 0;
           font-size: 14px;
-          color: ${status === STEP_SUCCESS ? '#2CC68F' : '#637381'};
+          color: ${status === STEP_SUCCESS ? '#38CCB6' : '#637381'};
         `}
       >
         {desc}
