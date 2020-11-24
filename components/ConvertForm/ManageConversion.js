@@ -7,7 +7,7 @@ import {
 } from 'lib/web3-contracts'
 import { bigNum } from 'lib/utils'
 import ConvertSteps from 'components/ConvertSteps/ConvertSteps'
-import processing from './assets/loader.gif'
+import FullPageLoader from "../FullPageLoader"
 
 function ManageConversion({ toBonded, fromAmount, handleReturnHome }) {
   const makeOrder = useMakeOrder()
@@ -120,13 +120,7 @@ function ManageConversion({ toBonded, fromAmount, handleReturnHome }) {
             height: 100vh;
           `}
         >
-          <img
-            css={`
-              max-width: 125px;
-            `}
-            src={processing}
-            alt=""
-          />
+          <FullPageLoader />
         </div>
       )}
     </>
