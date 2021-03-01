@@ -1,0 +1,33 @@
+[
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_collateral",
+        "type": "address"
+      }
+    ],
+    "name": "getCollateralToken",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
