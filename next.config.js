@@ -22,6 +22,7 @@ module.exports = withCSS(
   withFonts(
     withImages({
       webpack(config, options) {
+        target: 'serverless',
         return ['lib', 'components'].reduce((config, dirname) => {
           config.resolve.alias[dirname] = path.join(__dirname, dirname)
           return config
