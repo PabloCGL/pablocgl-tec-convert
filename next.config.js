@@ -21,8 +21,8 @@ delete ENV.NODE_ENV
 module.exports = withCSS(
   withFonts(
     withImages({
+      target: 'serverless',
       webpack(config, options) {
-        target: 'serverless',
         return ['lib', 'components'].reduce((config, dirname) => {
           config.resolve.alias[dirname] = path.join(__dirname, dirname)
           return config
