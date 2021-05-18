@@ -149,7 +149,7 @@ function ConvertForm() {
             <AmountInput
               symbol={inverted ? collateral.symbol : bonded.symbol}
               color={true}
-              value={estimatedAmountReceived}
+              value={estimatedAmountReceived.toString()}
               onChange={() => null}
             />
             <LabelWithOverlay
