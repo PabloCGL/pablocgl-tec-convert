@@ -145,6 +145,7 @@ function ConvertForm() {
               color={true}
               value={inputValueRecipient}
               onChange={() => null}
+              disabled={true}
             />
             <LabelWithOverlay
               label="The conversion amount is an estimate"
@@ -153,7 +154,7 @@ function ConvertForm() {
                       automated market maker smart contract that defines a
                       relationship between token price and token supply. ${collateral.symbol === 'xDAI' ? `You can
                       also convert xDAI into DAI using the xDAI bridge` : `You can also convert ${collateral.symbol}
-                      into other tokens on Honeyswap`} .
+                      into other tokens on Honeyswap.`}
 `}
               overlayPlacement="top"
             />
@@ -204,7 +205,6 @@ function ConvertForm() {
                     >
                       {checkbox.hrefText}
                     </Anchor>
-                    .
                   </label>
                 </div>
               }
