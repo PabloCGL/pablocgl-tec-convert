@@ -228,20 +228,22 @@ function ConvertForm() {
 
 function LabelWithOverlay({ label, description, overlayPlacement }) {
   return (
-    <OverlayTrigger
-      delay={{ hide: 400 }}
-      overlay={props => (
-        <Tooltip {...props} show="true">
-          {description}
-        </Tooltip>
-      )}
-      placement={overlayPlacement}
-    >
+    <div>
       <Label>
         {label}
-        <img src={question} alt="" />
       </Label>
-    </OverlayTrigger>
+      <OverlayTrigger
+        delay={{ hide: 400 }}
+        overlay={props => (
+          <Tooltip {...props} show="true">
+            {description}
+          </Tooltip>
+        )}
+        placement={overlayPlacement}
+      >
+          <img src={question} alt="" />
+      </OverlayTrigger>
+    </div>
   )
 }
 
@@ -303,12 +305,10 @@ const Label = styled.label`
   line-height: 38px;
   color: #8a96a0;
   margin-bottom: 6px;
+  padding-right: 10px;
 
   span {
     color: #08bee5;
-  }
-  img {
-    padding-left: 10px;
   }
 `
 
