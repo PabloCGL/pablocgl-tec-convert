@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { bigNum } from 'lib/utils'
-import { useBondingCurvePrice, useTokenDecimals } from 'lib/web3-contracts'
+import { useBondingCurvePrice, useTokenDecimals, getTributePcts } from 'lib/web3-contracts'
 import { formatUnits, parseUnits } from 'lib/web3-utils'
 
 import { bonded } from '../../config'
@@ -24,11 +24,24 @@ function parseInputValue(inputValue, decimals) {
   return { amount, inputValue }
 }
 
+
+/*TO DO: implement Min return value parsing.
+    probably the best thing is to build getAmountReceived and getMinimumWithSlippage into this function
+    and keep the code in web3-contracts to a minimum (mainly the parts that actually interact with the contracts!)
+    most of the logic will probably be in the useEffect line 64.
+    
+    will have to return entryTribute, exitTribute, minimumWithSlippage (in bigNum and "pretty") and estimatedAmountReceived(this one only in "pretty") in some formatting or another 
+
+  entry/exit already implemented, seems to work
+*/
 export function useConvertInputs(otherSymbol, toBonded = true) {
   const [inputValueRecipient, setInputValueRecipient] = useState('')
   const [inputValueSource, setInputValueSource] = useState('0.0')
+  const [inputMinWithSlippage, setInputMinWithSlippage]= useState('')
+  const [inputEstimatedReceived, setInputEstimatedReceived] = useState('')
   const [amountRecipient, setAmountRecipient] = useState(bigNum(0))
   const [amountSource, setAmountSource] = useState(bigNum(0))
+  const [amountMinWithSlippage, setAmountMinWithSlippage]= useState(bigNum(0))
   const [editing, setEditing] = useState(null)
   const {
     loading: bondingPriceLoading,
@@ -36,6 +49,7 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
   } = useBondingCurvePrice(amountSource, toBonded)
   const bondedDecimals = useTokenDecimals(bonded.symbol)
   const otherDecimals = useTokenDecimals(otherSymbol)
+  const [entryTribute, exitTribute] = getTributePcts() 
 
   // convertFromBonded is used as a toggle to execute a conversion to or from Bonded.
   const [convertFromBonded, setConvertFromBonded] = useState(false)
@@ -45,6 +59,10 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
     setInputValueRecipient('')
     setAmountRecipient(bigNum(0))
     setAmountSource(bigNum(0))
+    setInputEstimatedReceived('')
+    setAmountMinWithSlippage(bigNum(0))
+    setInputMinWithSlippage('')
+    setInputEstimatedReceived('')
   }, [])
 
   // Reset the inputs anytime the selected token changes
@@ -66,10 +84,29 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
 
     const amount = bondingCurvePrice
 
-    setAmountRecipient(amount)
+    let applicableTribute = (toBonded ? entryTribute : exitTribute)
+
+    const maxSlippagePct = 1 //slippage hardcoded at 1% for now, can be made changeable in the future
+
+    const estReceived = amount.mul(100 - applicableTribute).div(100)
+    const receivedWithSlippage = estReceived.mul(100 - maxSlippagePct).div(100)
+
+    setAmountRecipient(
+      amount
+    )
     setInputValueRecipient(
       formatUnits(amount, { digits: bondedDecimals, truncateToDecimalPlace: 8 })
     )
+    setInputEstimatedReceived(
+      formatUnits(estReceived, { digits: bondedDecimals, truncateToDecimalPlace: 8 })
+    )
+    setAmountMinWithSlippage(
+      receivedWithSlippage
+    )
+    setInputMinWithSlippage(
+      formatUnits(receivedWithSlippage, { digits: bondedDecimals, truncateToDecimalPlace: 8 })
+    )
+
   }, [
     amountSource,
     bondedDecimals,
@@ -175,9 +212,12 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
   )
 
   return {
-    // The parsed amount
+    // The parsed amounts
     amountSource,
     amountRecipient,
+    amountMinWithSlippage,
+    entryTribute,
+    exitTribute,
     // Event handlers to bind the inputs
     bindOtherInput,
     bindBondedInput,
@@ -186,6 +226,8 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
     // The value to be used for inputs
     inputValueRecipient,
     inputValueSource,
-    resetInputs,
+    inputEstimatedReceived,
+    inputMinWithSlippage,
+    resetInputs,    
   }
 }
