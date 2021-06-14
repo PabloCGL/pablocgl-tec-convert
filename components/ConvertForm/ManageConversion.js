@@ -9,7 +9,7 @@ import { bigNum } from 'lib/utils'
 import ConvertSteps from 'components/ConvertSteps/ConvertSteps'
 import FullPageLoader from "../FullPageLoader"
 
-function ManageConversion({ toBonded, fromAmount, handleReturnHome }) {
+function ManageConversion({ toBonded, fromAmount, handleReturnHome, minReturn }) {
   const makeOrder = useMakeOrder()
   const orderReceiptAmount = useOrderReceiptAmount()
   const changeAllowance = useApprove()
@@ -72,7 +72,7 @@ function ManageConversion({ toBonded, fromAmount, handleReturnHome }) {
       steps.push([
         `Make ${toBonded ? 'buy' : 'sell'} order`,
         {
-          onTxCreated: () => makeOrder(fromAmount, toBonded),
+          onTxCreated: () => makeOrder(fromAmount, toBonded, minReturn),
           onTxMined: hash => updateConvertedValue(hash),
         },
       ])

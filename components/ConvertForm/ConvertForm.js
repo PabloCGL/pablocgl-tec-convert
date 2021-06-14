@@ -8,7 +8,7 @@ import NavBar from 'components/NavBar/NavBar'
 import Balance from 'components/SplitScreen/Balance'
 import SplitScreen from 'components/SplitScreen/SplitScreen'
 import { useWalletAugmented } from 'lib/wallet'
-import { useTokenBalance } from 'lib/web3-contracts'
+import { useTokenBalance} from 'lib/web3-contracts'
 import { formatUnits } from 'lib/web3-utils'
 import { useConvertInputs } from './useConvertInputs'
 
@@ -31,14 +31,20 @@ function ConvertForm() {
   const [messageChecked, setMeessageChecked] = useState(false)
   const {
     amountSource,
+    amountMinWithSlippage,
     bindOtherInput,
     bondingPriceLoading,
     handleManualInputChange,
     inputValueRecipient,
     inputValueSource,
+    inputEstimatedReceived,
+    inputMinWithSlippage,
     resetInputs,
+    entryTribute,
+    exitTribute,    
   } = useConvertInputs(options[selectedOption], toBonded)
   const [tokenBalance, spendableBalance] = useTokenBalance(options[selectedOption])
+
 
   const { account } = useWalletAugmented()
 
@@ -143,19 +149,25 @@ function ConvertForm() {
             <AmountInput
               symbol={inverted ? collateral.symbol : bonded.symbol}
               color={true}
-              value={inputValueRecipient}
+              value={inputEstimatedReceived}
               onChange={() => null}
               disabled={true}
             />
             <LabelWithOverlay
-              label="The conversion amount is an estimate"
+              label={`${selectedOption === 0 ? `Entry tribute is: ${entryTribute}%` : `Exit tribute is: ${exitTribute}%`}`}
+              description={`Amount before tribute: ${selectedOption === 0 ? inputValueRecipient + " "+ options[1] : inputValueRecipient + " " + options[0]}`}
+              overlayPlacement="top"
+            />
+            <LabelWithOverlay
+              label={`Estimated minimum received (with slippage): ${selectedOption === 0 ? inputMinWithSlippage + " "+ options[1] : inputMinWithSlippage + " " + options[0]}`}
               description={`This tool uses a bonding curve to convert ${collateral.symbol} into ${bonded.symbol} and
                       back at a pre-defined rate. The price is calculated by an
                       automated market maker smart contract that defines a
-                      relationship between token price and token supply. ${collateral.symbol === 'xDAI' ? `You can
-                      also convert xDAI into DAI using the xDAI bridge` : `You can also convert ${collateral.symbol}
+                      relationship between token price and token supply. ${selectedOption === 0 ? `You can
+                      also convert wxDAI into DAI using the xDAI bridge.` : `You can also convert ${bonded.symbol}
                       into other tokens on Honeyswap.`}
-`}
+              `}
+
               overlayPlacement="top"
             />
             <div
@@ -218,6 +230,7 @@ function ConvertForm() {
               toBonded={toBonded}
               fromAmount={amountSource}
               handleReturnHome={handleReturnHome}
+              minReturn={amountMinWithSlippage}
             />
           )
         }
@@ -302,7 +315,7 @@ const Button = styled.button`
 
 const Label = styled.label`
   font-size: 16px;
-  line-height: 38px;
+  line-height: 0px;
   color: #8a96a0;
   margin-bottom: 6px;
   padding-right: 10px;
