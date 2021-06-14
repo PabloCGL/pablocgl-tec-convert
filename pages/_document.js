@@ -35,13 +35,19 @@ export default class Document extends NextDocument {
         <Head>
           <meta charSet="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/favicon.png" />
+          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+          <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+          <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+          <link rel="manifest" href="/manifest.json" />
           <link
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
             integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
             crossOrigin="anonymous"
           />
+
+          <meta name="theme-color" content="#000000" />
 
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="@AragonProject" />
