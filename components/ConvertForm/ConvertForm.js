@@ -151,6 +151,7 @@ function ConvertForm() {
               color={true}
               value={inputEstimatedReceived}
               onChange={() => null}
+              disabled={true}
             />
             <LabelWithOverlay
               label={`${selectedOption === 0 ? `Entry tribute is: ${entryTribute}%` : `Exit tribute is: ${exitTribute}%`}`}
@@ -163,9 +164,10 @@ function ConvertForm() {
                       back at a pre-defined rate. The price is calculated by an
                       automated market maker smart contract that defines a
                       relationship between token price and token supply. ${selectedOption === 0 ? `You can
-                      also convert wxDAI into DAI using the xDAI bridge` : `You can also convert ${bonded.symbol}
-                      into other tokens on Honeyswap`} .
+                      also convert wxDAI into DAI using the xDAI bridge.` : `You can also convert ${bonded.symbol}
+                      into other tokens on Honeyswap.`}
               `}
+
               overlayPlacement="top"
             />
             <div
@@ -215,7 +217,6 @@ function ConvertForm() {
                     >
                       {checkbox.hrefText}
                     </Anchor>
-                    .
                   </label>
                 </div>
               }
@@ -240,20 +241,22 @@ function ConvertForm() {
 
 function LabelWithOverlay({ label, description, overlayPlacement }) {
   return (
-    <OverlayTrigger
-      delay={{ hide: 400 }}
-      overlay={props => (
-        <Tooltip {...props} show="true">
-          {description}
-        </Tooltip>
-      )}
-      placement={overlayPlacement}
-    >
+    <div>
       <Label>
         {label}
-        <img src={question} alt="" />
       </Label>
-    </OverlayTrigger>
+      <OverlayTrigger
+        delay={{ hide: 400 }}
+        overlay={props => (
+          <Tooltip {...props} show="true">
+            {description}
+          </Tooltip>
+        )}
+        placement={overlayPlacement}
+      >
+          <img src={question} alt="" />
+      </OverlayTrigger>
+    </div>
   )
 }
 
@@ -315,12 +318,10 @@ const Label = styled.label`
   line-height: 0px;
   color: #8a96a0;
   margin-bottom: 6px;
+  padding-right: 10px;
 
   span {
     color: #08bee5;
-  }
-  img {
-    padding-left: 10px;
   }
 `
 
