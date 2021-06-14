@@ -145,6 +145,7 @@ function ConvertForm() {
               color={true}
               value={inputValueRecipient}
               onChange={() => null}
+              disabled={true}
             />
             <LabelWithOverlay
               label="The conversion amount is an estimate"
@@ -153,7 +154,7 @@ function ConvertForm() {
                       automated market maker smart contract that defines a
                       relationship between token price and token supply. ${collateral.symbol === 'xDAI' ? `You can
                       also convert xDAI into DAI using the xDAI bridge` : `You can also convert ${collateral.symbol}
-                      into other tokens on Honeyswap`} .
+                      into other tokens on Honeyswap.`}
 `}
               overlayPlacement="top"
             />
@@ -204,7 +205,6 @@ function ConvertForm() {
                     >
                       {checkbox.hrefText}
                     </Anchor>
-                    .
                   </label>
                 </div>
               }
@@ -228,20 +228,22 @@ function ConvertForm() {
 
 function LabelWithOverlay({ label, description, overlayPlacement }) {
   return (
-    <OverlayTrigger
-      delay={{ hide: 400 }}
-      overlay={props => (
-        <Tooltip {...props} show="true">
-          {description}
-        </Tooltip>
-      )}
-      placement={overlayPlacement}
-    >
+    <div>
       <Label>
         {label}
-        <img src={question} alt="" />
       </Label>
-    </OverlayTrigger>
+      <OverlayTrigger
+        delay={{ hide: 400 }}
+        overlay={props => (
+          <Tooltip {...props} show="true">
+            {description}
+          </Tooltip>
+        )}
+        placement={overlayPlacement}
+      >
+          <img src={question} alt="" />
+      </OverlayTrigger>
+    </div>
   )
 }
 
@@ -303,12 +305,10 @@ const Label = styled.label`
   line-height: 38px;
   color: #8a96a0;
   margin-bottom: 6px;
+  padding-right: 10px;
 
   span {
     color: #08bee5;
-  }
-  img {
-    padding-left: 10px;
   }
 `
 
