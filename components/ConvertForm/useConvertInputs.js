@@ -41,6 +41,7 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
   const {
     loading: bondingPriceLoading,
     price: bondingCurvePrice,
+    pricePerUnit: bondingCurvePricePerUnit,
   } = useBondingCurvePrice(amountSource, toBonded)
   const bondedDecimals = useTokenDecimals(bonded.symbol)
   const otherDecimals = useTokenDecimals(otherSymbol)
@@ -88,8 +89,7 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
     const estReceived = amount.mul(100 - applicableTribute).div(100)
     const amountRetained = amountSource.mul(applicableTribute).div(100) 
     const receivedWithSlippage = estReceived.mul(100 - maxSlippagePct).div(100)
-
-    const singleUnit = (amount.isZero()  ? 0 : estReceived/amountSource)
+    const pricePerUnit = bondingCurvePricePerUnit * applicableTribute / 100
     
     setAmountRecipient(
       amount
@@ -104,7 +104,7 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
       formatUnits(amountRetained, { digits: bondedDecimals, truncateToDecimalPlace: 8 , replaceZeroBy: 0})
     )
     setPricePerUnitReceived(
-      singleUnit
+      pricePerUnit
     )
     setAmountMinWithSlippage(
       receivedWithSlippage
@@ -113,15 +113,7 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
       formatUnits(receivedWithSlippage, { digits: bondedDecimals, truncateToDecimalPlace: 8, replaceZeroBy: 0 })
     )
 
-  }, [
-    amountSource,
-    bondedDecimals,
-    bondingCurvePrice,
-    bondingPriceLoading,
-    convertFromBonded,
-    editing,
-    otherDecimals,
-  ])
+  }, [amountSource, bondedDecimals, bondingCurvePrice, bondingCurvePricePerUnit, bondingPriceLoading, convertFromBonded, editing, entryTribute, exitTribute, otherDecimals, toBonded])
 
   // Alternate the comma-separated format, based on the fields focus state.
   const setEditModeOther = useCallback(
