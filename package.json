@@ -27,7 +27,7 @@
     "@zeit/next-css": "^1.0.1",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
-    "ethers": "^4.0.41",
+    "ethers": "^4.0.48",
     "gh-pages": "^2.1.1",
     "graphql-request": "^1.8.2",
     "next": "^9.3.2",
