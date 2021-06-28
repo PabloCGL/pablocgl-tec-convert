@@ -31,20 +31,18 @@ function ConvertForm() {
   const [messageChecked, setMeessageChecked] = useState(false)
   const {
     amountSource,
-    amountRecipient,
-    amountMinWithSlippage,
     bindOtherInput,
     bondingPriceLoading,
     handleManualInputChange,
     inputValueRecipient,
     inputValueSource,
-    inputEstimatedReceived,
-    inputMinWithSlippage,
     resetInputs,
-    entryTribute,
-    exitTribute, 
-    pricePerUnitReceived, 
-    inputAmountRetained, 
+    amountMinWithSlippage,
+    amountMinWithSlippageFormatted,
+    entryTributePct,
+    exitTributePct,
+    pricePerUnitReceived,
+    amountRetained,
   } = useConvertInputs(options[selectedOption], toBonded)
   const [tokenBalance, spendableBalance] = useTokenBalance(options[selectedOption])
 
@@ -152,7 +150,7 @@ function ConvertForm() {
             <AmountInput
               symbol={inverted ? collateral.symbol : bonded.symbol}
               color={true}
-              value={inputEstimatedReceived}
+              value={inputValueRecipient}
               onChange={() => null}
               disabled={true}
             />
@@ -160,8 +158,8 @@ function ConvertForm() {
               label={`${selectedOption === 0 ?  `1 ${collateral.symbol} = ${pricePerUnitReceived} ${bonded.symbol}` : `1 ${bonded.symbol} = ${pricePerUnitReceived} ${collateral.symbol}`}  `}
               description={
                 <>
-                  <div>{selectedOption === 0 ? `Entry tribute (${entryTribute}%): ${inputAmountRetained} ${collateral.symbol}` : `Exit tribute (${exitTribute}%): ${inputAmountRetained} ${bonded.symbol}`}</div>
-                  <div>Minimum received (with slippage): {selectedOption === 0 ? inputMinWithSlippage + " " + bonded.symbol : inputMinWithSlippage + " " + collateral.symbol}</div>
+                  <div>{selectedOption === 0 ? `Entry tribute (${entryTributePct}%): ${amountRetained} ${collateral.symbol}` : `Exit tribute (${exitTributePct}%): ${amountRetained} ${collateral.symbol}`}</div>
+                  <div>Minimum received (with slippage): {selectedOption === 0 ? amountMinWithSlippageFormatted + " " + bonded.symbol : amountMinWithSlippageFormatted + " " + collateral.symbol}</div>
                 </>
               }
               overlayPlacement="top"

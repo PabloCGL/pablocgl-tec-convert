@@ -69,6 +69,10 @@
     "constant": false,
     "inputs": [
       {
+        "name": "_buyer",
+        "type": "address"
+      },
+      {
         "name": "_collateral",
         "type": "address"
       },
@@ -91,6 +95,10 @@
     "constant": false,
     "inputs": [
       {
+        "name": "_seller",
+        "type": "address"
+      },
+      {
         "name": "_collateral",
         "type": "address"
       },
@@ -108,5 +116,79 @@
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "buyer",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "collateral",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "fee",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "purchaseAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "returnedAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "feePct",
+        "type": "uint256"
+      }
+    ],
+    "name": "MakeBuyOrder",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "collateral",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "fee",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "sellAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "returnedAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "feePct",
+        "type": "uint256"
+      }
+    ],
+    "name": "MakeSellOrder",
+    "type": "event"
   }
 ]

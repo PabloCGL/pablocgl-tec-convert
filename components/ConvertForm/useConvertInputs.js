@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { bigNum } from 'lib/utils'
-import { useBondingCurvePrice, useTokenDecimals, useTributePcts } from 'lib/web3-contracts'
+import { useBondingCurvePrice, useTokenDecimals } from 'lib/web3-contracts'
 import { formatUnits, parseUnits } from 'lib/web3-utils'
 
 import { bonded } from '../../config'
+
+const PCT_BASE = bigNum(10).pow(18)
 
 // Filters and parse the input value of a token amount.
 // Returns a BN.js instance and the filtered value.
@@ -29,10 +31,9 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
   //The values in "pretty" format for the interface
   const [inputValueRecipient, setInputValueRecipient] = useState('')
   const [inputValueSource, setInputValueSource] = useState('')
-  const [inputMinWithSlippage, setInputMinWithSlippage]= useState('')
-  const [inputEstimatedReceived, setInputEstimatedReceived] = useState('')
+  const [amountMinWithSlippageFormatted, setAmountMinWithSlippageFormatted]= useState('')
   const [pricePerUnitReceived, setPricePerUnitReceived] = useState('')
-  const [inputAmountRetained, setInputAmountRetained] = useState('')
+  const [amountRetained, setAmountRetained] = useState('')
   // The values in "raw" (BigNum) format for contract interaction
   const [amountRecipient, setAmountRecipient] = useState(bigNum(0))
   const [amountSource, setAmountSource] = useState(bigNum(0))
@@ -42,10 +43,11 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
     loading: bondingPriceLoading,
     price: bondingCurvePrice,
     pricePerUnit: bondingCurvePricePerUnit,
+    entryTribute,
+    exitTribute,
   } = useBondingCurvePrice(amountSource, toBonded)
   const bondedDecimals = useTokenDecimals(bonded.symbol)
   const otherDecimals = useTokenDecimals(otherSymbol)
-  const [entryTribute, exitTribute] = useTributePcts() 
 
   // convertFromBonded is used as a toggle to execute a conversion to or from Bonded.
   const [convertFromBonded, setConvertFromBonded] = useState(false)
@@ -55,12 +57,10 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
     setInputValueRecipient('')
     setAmountRecipient(bigNum(0))
     setAmountSource(bigNum(0))
-    setInputEstimatedReceived('')
     setAmountMinWithSlippage(bigNum(0))
-    setInputMinWithSlippage('')
-    setInputEstimatedReceived('')
+    setAmountMinWithSlippageFormatted('')
     setPricePerUnitReceived('')
-    setInputAmountRetained('')
+    setAmountRetained('')
   }, [])
 
   // Reset the inputs anytime the selected token changes
@@ -80,16 +80,11 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
       return
     }
 
+    const maxSlippagePct = 0.01 //slippage hardcoded at 1% for now, can be made changeable in the future
     const amount = bondingCurvePrice
-
-    let applicableTribute = (toBonded ? entryTribute : exitTribute)
-
-    const maxSlippagePct = 1 //slippage hardcoded at 1% for now, can be made changeable in the future
-
-    const estReceived = amount.mul(100 - applicableTribute).div(100)
-    const amountRetained = amountSource.mul(applicableTribute).div(100) 
-    const receivedWithSlippage = estReceived.mul(100 - maxSlippagePct).div(100)
-    const pricePerUnit = bondingCurvePricePerUnit * applicableTribute / 100
+    const amountRetained = toBonded ? amountSource.mul(entryTribute).div(PCT_BASE) : amount.mul(exitTribute).div(PCT_BASE.sub(exitTribute))
+    const receivedWithSlippage = amount.mul(100 * (1 - maxSlippagePct)).div(100)
+    const pricePerUnit = bondingCurvePricePerUnit
     
     setAmountRecipient(
       amount
@@ -97,19 +92,16 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
     setInputValueRecipient(
       formatUnits(amount, { digits: bondedDecimals, truncateToDecimalPlace: 8 })
     )
-    setInputEstimatedReceived(
-      formatUnits(estReceived, { digits: bondedDecimals, truncateToDecimalPlace: 8 })
-    )
-    setInputAmountRetained(
+    setAmountRetained(
       formatUnits(amountRetained, { digits: bondedDecimals, truncateToDecimalPlace: 8 , replaceZeroBy: 0})
     )
     setPricePerUnitReceived(
-      pricePerUnit
+      formatUnits(pricePerUnit, { digits: bondedDecimals, truncateToDecimalPlace: 8, replaceZeroBy: 0 })
     )
     setAmountMinWithSlippage(
       receivedWithSlippage
     )
-    setInputMinWithSlippage(
+    setAmountMinWithSlippageFormatted(
       formatUnits(receivedWithSlippage, { digits: bondedDecimals, truncateToDecimalPlace: 8, replaceZeroBy: 0 })
     )
 
@@ -219,11 +211,10 @@ export function useConvertInputs(otherSymbol, toBonded = true) {
     // The values to be used in the interface
     inputValueRecipient,
     inputValueSource,
-    inputEstimatedReceived,
-    inputMinWithSlippage,
-    inputAmountRetained,
-    entryTribute,
-    exitTribute,
+    amountMinWithSlippageFormatted,
+    amountRetained,
+    entryTributePct: entryTribute.mul(10000).div(PCT_BASE).toNumber() / 100,
+    exitTributePct: exitTribute.mul(10000).div(PCT_BASE).toNumber() / 100,
     pricePerUnitReceived,
     resetInputs,    
   }

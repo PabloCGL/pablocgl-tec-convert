@@ -1,10 +1,10 @@
 {
   "collateral": {
-    "symbol": "wxDAI",
+    "symbol": "HNY",
     "decimals": 18
   },
   "bonded": {
-    "symbol": "TestTEC",
+    "symbol": "XX",
     "decimals": 18
   },
   "knownContracts": [
@@ -21,8 +21,8 @@
     [
       "4",
       {
-        "BANCOR_FORMULA": "0x9ac140F489Df1481C20FeB318f09b29A4f744915",
-        "BONDING_CURVE_RESERVE": "0x5de2edca5b5350acde2ff15ce333fc5fe23b15fb",
+        "BANCOR_FORMULA": "0x5e0ba241F475d3609D89c37dC6C6042387A76EC9",
+        "BONDING_CURVE_RESERVE": "0x8974219bfd0253ad89a95108c804e019fc957a61",
         "MARKET_MAKER": "0x653e2eadfc0cad317c3bed8de34e0284d3c62ad2",
         "COLLATERAL_TOKEN": "0xb0f6d3da7a277ce9d0cbd91705d936ad8e5f4ea1",
         "BONDED_TOKEN": "0xa0596e59c741912e32ef933253e81e3121951025",
