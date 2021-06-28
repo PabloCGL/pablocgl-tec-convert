@@ -14,7 +14,6 @@ const COMMIT_SHA =
 const BUILD = process.env.BUILD || `${version}-${COMMIT_SHA.slice(0, 7)}`
 
 const ENV = fullEnvironment()
-
 // Defined by Next
 delete ENV.NODE_ENV
 
