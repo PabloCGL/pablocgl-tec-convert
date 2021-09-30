@@ -14,6 +14,7 @@ function StepperLayout({
   status,
   onRepeatTransaction,
   onReturnHome,
+  addTokenFunction,
   titleArea,
 }) {
   const { above } = useViewport()
@@ -119,6 +120,7 @@ function StepperLayout({
               `}
             >
               <Button onClick={onReturnHome}>Start new conversion</Button>
+              <Button onClick={addTokenFunction}>Add Token To MetaMask</Button>
             </div>
           )}
         </div>
@@ -126,7 +128,7 @@ function StepperLayout({
     </div>
   )
 }
-
+//TO DO
 StepperLayout.propTypes = {
   children: PropTypes.node,
   status: PropTypes.oneOf([
@@ -136,6 +138,7 @@ StepperLayout.propTypes = {
   ]),
   onRepeatTransaction: PropTypes.func,
   onReturnHome: PropTypes.func,
+  addTokenFunction: PropTypes.func
 }
 
 export default StepperLayout

@@ -41,6 +41,7 @@ function reduceSteps(steps, [action, stepIndex, value]) {
   return steps
 }
 
+//TO DO
 function ConvertSteps({
   toBonded,
   fromAmount,
@@ -141,6 +142,8 @@ function ConvertSteps({
       status={stepperStatus}
       onRepeatTransaction={handleRetrySigning}
       onReturnHome={onReturnHome}
+      addTokenFunction={addTokenFunction}
+
       titleArea={
         <div
           css={`

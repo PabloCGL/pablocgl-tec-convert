@@ -28,7 +28,7 @@ function ConvertForm() {
   const [selectedOption, setSelectedOption] = useState(1)
   const [inverted, setInverted] = useState(true)
   const toBonded = useMemo(() => !inverted, [inverted])
-  const [messageChecked, setMeessageChecked] = useState(false)
+  const [messageChecked, setMessageChecked] = useState(false)
   const {
     amountSource,
     bindOtherInput,
@@ -56,7 +56,7 @@ function ConvertForm() {
   ])
 
   const handleCheckboxToggle = useCallback(() => {
-    setMeessageChecked(messageChecked => !messageChecked)
+    setMessageChecked(messageChecked => !messageChecked)
   }, [])
 
   const handleInvert = useCallback(() => {
@@ -79,6 +79,33 @@ function ConvertForm() {
     resetInputs()
     setFormStatus(CONVERTER_STATUSES.FORM)
   }, [resetInputs])
+
+  //TO DO
+  const addTokenFunction = useCallback(() => {
+
+    try {
+      
+      const wasAdded = ethereum.request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20', 
+          options: {
+            address: "0xcD62b1C403fa761BAadFC74C525ce2B51780b184", 
+            symbol: bonded.symbol, 
+            decimals: bonded.decimals, 
+          },
+        },
+      });
+    
+      if (wasAdded) {
+        console.log('Thanks for your interest!');
+      } else {
+        console.log('HelloWorld Coin has not been added');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    }, [])
 
   const submitButtonDisabled = Boolean(
     !account ||
